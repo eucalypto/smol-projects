@@ -5,6 +5,7 @@ import numpy as np
 class Sudoku:
     def __init__(self):
         self.fields = np.empty((9, 9), dtype="object")
+        self.solved = False
 
     @staticmethod
     def from_list(list_raw: list):
@@ -43,15 +44,32 @@ class Sudoku:
         return Sudoku.check_numbers(column_entries)
 
     def get_quadrant(self, row, column):
-        row_start = row*3
+        row_start = Sudoku.get_quadrant_start(row)
         row_end = row_start + 3
-        column_start = column*3
+        column_start = Sudoku.get_quadrant_start(column)
         column_end = column_start + 3
-        return self.fields[row_start:row_end, column_start:column_end]
+        return self.fields[row_start:row_end, column_start:column_end].reshape(1, 9)[0]
+
+    @staticmethod
+    def get_quadrant_start(index):
+        if index in [0, 1, 2]:
+            return 0
+        if index in [3, 4, 5]:
+            return 3
+        if index in [6, 7, 8]:
+            return 6
 
     def check_quadrant(self, row, column):
-        quadrant_entries = [field.number for field in self.get_quadrant(row, column).reshape(1, 9)[0]]
+        quadrant_entries = [field.number for field in self.get_quadrant(row, column)]
         return Sudoku.check_numbers(quadrant_entries)
+
+    def get_state(self):
+        return_string = ""
+        for row in self.fields:
+            for field in row:
+                return_string += str(field.fixed)
+            return_string += "\n"
+        return return_string
 
     def __str__(self):
         ret = ""
@@ -60,4 +78,40 @@ class Sudoku:
                 ret += str(field)
             ret += "\n"
         return ret
+
+    def solve(self):
+        while not self.solved:
+            for row_index, row in enumerate(self.fields):
+                for column_index, field in enumerate(row):
+                    if field.fixed:
+                        self.remove_candidates(row_index, column_index, field.number)
+                        self.check_if_solved()
+
+    def remove_candidates(self, row_index, col_index, candidate):
+        # row
+        for field in self.get_row(row_index):
+            field.remove_candidate(candidate)
+
+        # column
+        for field in self.get_column(col_index):
+            field.remove_candidate(candidate)
+
+        # quadrant
+        for field in self.get_quadrant(row_index, col_index):
+            field.remove_candidate(candidate)
+
+    def check_if_solved(self):
+        for row in self.fields:
+            for field in row:
+                if not field.fixed:
+                    self.solved = False
+                    return False
+        # otherwise:
+        self.solved = True
+        return True
+
+
+
+
+
 
