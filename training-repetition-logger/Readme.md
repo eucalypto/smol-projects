@@ -13,6 +13,21 @@ of the set. And this is the perfect job for a computer! ^-^
 
 Here are some extension ideas:
 
+### Graceful input validation
+
+Right now, the program tries to cast the input to int. When this fails it raises a ValueError, terminating the whole program.
+
+I want it to ask me again for input if this fails.
+
+
+### Amend last entry
+
+Sometimes I mistype the number and want to amend the last entry.
+
+### Assume last number as input
+
+Often I do the same amount of reps. The program should assume the last given amount as input if you hit "enter" without giving a number (input).
+
 ### Class structure
 
 Right now, it is one script. But if I want to make further extensions, I should split up the logic from the display (current: command line). This would allow me to set up a gui later without much hustle.
