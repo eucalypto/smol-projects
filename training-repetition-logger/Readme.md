@@ -18,9 +18,6 @@ Here are some extension ideas:
 
 Sometimes I mistype the number and want to amend the last entry.
 
-### Assume last number as input
-
-Often I do the same amount of reps. The program should assume the last given amount as input if you hit "enter" without giving a number (input).
 
 ### Class structure
 
@@ -52,3 +49,6 @@ Right now, the program tries to cast the input to int. When this fails it raises
 
 I want it to ask me again for input if this fails.
 
+#### Assume last number as input
+
+Often I do the same amount of reps. The program should assume the last given amount as input if you hit "enter" without giving a number (input).

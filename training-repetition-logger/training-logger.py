@@ -7,15 +7,17 @@ import datetime
 logstring = ""
 print(logstring)
 
-workout = []
+workout = [0]
 while True:
-    inputline = input("Please insert number of repetitions (or '[q]uit'):")
+    inputline = input(f"Please insert number of repetitions (default: {workout[-1]}, or '[q]uit'):")
     if inputline.lower().startswith("q"):
         print("Here's your workout again:\n"
               + logstring
               + "Total reps: "
               + str(sum(workout)))
         break
+    elif inputline == "":
+        inputline = workout[-1]
 
     try:
         reps = int(inputline)
