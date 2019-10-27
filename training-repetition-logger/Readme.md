@@ -13,12 +13,6 @@ of the set. And this is the perfect job for a computer! ^-^
 
 Here are some extension ideas:
 
-### Graceful input validation
-
-Right now, the program tries to cast the input to int. When this fails it raises a ValueError, terminating the whole program.
-
-I want it to ask me again for input if this fails.
-
 
 ### Amend last entry
 
@@ -49,3 +43,12 @@ Sometimes you start the logger after you started the workout. You should be able
 ### Multiple exercises
 
 Right now, the program assumes you do only one kind of exercise. You have to start this script multiple times to log more than one exercise.
+
+### Done
+
+#### Graceful input validation
+
+Right now, the program tries to cast the input to int. When this fails it raises a ValueError, terminating the whole program.
+
+I want it to ask me again for input if this fails.
+
