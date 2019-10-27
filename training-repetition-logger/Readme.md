@@ -13,16 +13,6 @@ of the set. And this is the perfect job for a computer! ^-^
 
 Here are some extension ideas:
 
-
-### Amend last entry
-
-Sometimes I mistype the number and want to amend the last entry.
-
-
-### Class structure
-
-Right now, it is one script. But if I want to make further extensions, I should split up the logic from the display (current: command line). This would allow me to set up a gui later without much hustle.
-
 ### Gui
 
 Having a gui would be nice. I could offer a number-pad that allows me to insert the rep-number with mouse.
@@ -36,6 +26,8 @@ Right now, the program just displays the log in the command line. For now, this 
 ### Starting repetitions
 
 Sometimes you start the logger after you started the workout. You should be able to give the reps you already did as a starting point.
+
+But you can just as easy give the starting count for the very first "set"
 
 ### Multiple exercises
 
@@ -52,3 +44,11 @@ I want it to ask me again for input if this fails.
 #### Assume last number as input
 
 Often I do the same amount of reps. The program should assume the last given amount as input if you hit "enter" without giving a number (input).
+
+#### Amend last entry
+
+Sometimes I mistype the number and want to amend the last entry.
+
+#### Class structure
+
+Right now, it is one script. But if I want to make further extensions, I should split up the logic from the display (current: command line). This would allow me to set up a gui later without much hustle.

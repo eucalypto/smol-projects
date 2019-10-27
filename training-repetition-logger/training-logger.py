@@ -24,12 +24,18 @@ class Workout:
     def __init__(self):
         self.entries: List[Entry] = []
 
-    def change_last_number(correction):
-        # change the last number to: correction
-        print("changing number to:", correction)
-        pass
+    def change_last_number(self, correction: int):
+        """change the last number to: correction"""
+        try:
+            self.entries[-1].reps = correction
+        except IndexError:
+            # This occurs when the user tries to amend the last entry before
+            # there is even a first entry.
+            # In this case: do nothing.
+            pass
 
     def add_entry(self, reps: int):
+        """Add another entry in workout with current timestamp."""
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "; "
         self.entries.append(Entry(timestamp, reps))
 
@@ -41,6 +47,7 @@ class Workout:
         return output
 
     def total(self) -> int:
+        """Return total sum of repetitions."""
         return sum([entry.reps for entry in self.entries])
 
 
@@ -51,38 +58,55 @@ class Workouts:
 
     @classmethod
     def run_in_command_line(cls):
+        """
+        This is the "main" method that runs the infinite loop for input.
+
+        I don't like it. It is too long and too convoluted. I want to split it up in
+        more logical and re-usable parts. But this is the best I can do right now. :(
+        """
         workout = Workout()
         while True:
             last_reps = workout.entries[-1].reps \
                 if workout.entries != [] \
                 else 0
-            inputline = input("Please insert number of repetitions"
-                              f"(default: {last_reps}, or '[h]elp'):")
-            if inputline == "":
+            input_line = input("Count of repetitions to be logged: "
+                               f"(default: {last_reps}, or '[h]elp'): ")
+            if input_line == "":
                 workout.add_entry(last_reps)
                 print(workout)
-            elif inputline.lower().startswith("h"):
+            elif input_line.lower().startswith("h"):
                 Workouts.print_help()
-            elif inputline.lower().startswith("q"):
+            elif input_line.lower().startswith("q"):
                 print(workout)
                 break
-            elif inputline.lower().startswith("p"):
+            elif input_line.lower().startswith("p"):
                 print(workout)
-            elif inputline.lower().startswith("a"):
+            elif input_line.lower().startswith("a"):
                 # Get correct number
-                correct = int(input("Please give the new number:"))
-                change_last_number(correct)
+                try:
+                    correct = Workouts.to_int(input("Please give the new number: "))
+                except ValueError:
+                    continue
+                workout.change_last_number(correct)
+                print(workout)
                 continue
             else:
                 try:
-                    reps = int(inputline)
-                except ValueError as verror:
-                    print("Could not convert input into a number.")
-                    print(verror)
-                    print("Please try again.")
+                    reps = Workouts.to_int(input_line)
+                except ValueError:
                     continue
                 workout.add_entry(reps)
                 print(workout)
+
+    @classmethod
+    def to_int(cls, raw: str) -> int:
+        try:
+            output = int(raw)
+        except ValueError as v_error:
+            print(v_error)
+            print(f"Could not convert {raw} into int. Please try again")
+            raise v_error
+        return output
 
     @classmethod
     def print_help(cls):
