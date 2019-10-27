@@ -8,8 +8,16 @@ logstring = ""
 print(logstring)
 
 workout = [0]
+
+
+def change_last_number(correction):
+    # change the last number to: correction
+    print("changing number to:", correction)
+    pass
+
+
 while True:
-    inputline = input(f"Please insert number of repetitions (default: {workout[-1]}, or '[q]uit'):")
+    inputline = input(f"Please insert number of repetitions (default: {workout[-1]}, or '[h]elp'):")
     if inputline.lower().startswith("q"):
         print("Here's your workout again:\n"
               + logstring
@@ -18,6 +26,17 @@ while True:
         break
     elif inputline == "":
         inputline = workout[-1]
+    elif inputline.lower().startswith("h"):
+        print("You have the following commands:\n"
+              + "[h]elp: this help message\n"
+              + "[q]uit: print workout and quit\n"
+              + "[a]mend: amend last number without changing the timestamp")
+        continue
+    elif inputline.lower().startswith("a"):
+        # Get correct number
+        correct = int(input("Please give the new number:"))
+        change_last_number(correct)
+        continue
 
     try:
         reps = int(inputline)
