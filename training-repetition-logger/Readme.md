@@ -19,9 +19,7 @@ Having a gui would be nice. I could offer a number-pad that allows me to insert 
 
 I also could offer the last used rep-numbers for quick selection.
 
-### File logging
 
-Right now, the program just displays the log in the command line. For now, this is enough for me. But later, I maybe want to let it save to a file as well.
 
 ### Starting repetitions
 
@@ -34,6 +32,14 @@ But you can just as easy give the starting count for the very first "set"
 Right now, the program assumes you do only one kind of exercise. You have to start this script multiple times to log more than one exercise.
 
 ### Done
+
+#### File logging
+The program writes a file in the current directory with the name of the first timestamp of the workout and the same content as is printed out on screen.
+
+Each time, the workout is changed, the file gets overwritten with the updated data.
+
+##### Idea
+Right now, the program just displays the log in the command line. For now, this is enough for me. But later, I maybe want to let it save to a file as well.
 
 #### Graceful input validation
 

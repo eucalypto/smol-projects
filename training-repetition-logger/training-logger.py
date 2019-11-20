@@ -36,19 +36,28 @@ class Workout:
 
     def add_entry(self, reps: int):
         """Add another entry in workout with current timestamp."""
-        timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "; "
+        timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.entries.append(Entry(timestamp, reps))
 
     def __str__(self):
         output = "Your workout:\n"
         for entry in self.entries:
-            output += entry.timestamp + str(entry.reps) + "\n"
+            output += entry.timestamp + "; " + str(entry.reps) + "\n"
         output += "Total reps: " + str(self.total())
         return output
 
     def total(self) -> int:
         """Return total sum of repetitions."""
         return sum([entry.reps for entry in self.entries])
+
+    def write_to_file(self):
+        """Write log message to file in current directory
+
+        The filename is based on the start of the workout.
+        """
+        filename = self.entries[0].timestamp + " workout log.txt"
+        with open(filename, mode="w") as file:
+            file.write(str(self) + "\n")
 
 
 class Workouts:
@@ -74,6 +83,7 @@ class Workouts:
             if input_line == "":
                 workout.add_entry(last_reps)
                 print(workout)
+                workout.write_to_file()
             elif input_line.lower().startswith("h"):
                 Workouts.print_help()
             elif input_line.lower().startswith("q"):
@@ -89,6 +99,7 @@ class Workouts:
                     continue
                 workout.change_last_number(correct)
                 print(workout)
+                workout.write_to_file()
                 continue
             else:
                 try:
@@ -97,6 +108,7 @@ class Workouts:
                     continue
                 workout.add_entry(reps)
                 print(workout)
+                workout.write_to_file()
 
     @classmethod
     def to_int(cls, raw: str) -> int:
