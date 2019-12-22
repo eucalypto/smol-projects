@@ -20,12 +20,15 @@ class Workout:
     """
     Main class with data and logic (backend)
     """
+    entries: List[Entry]
+    exercise: str
 
     def __init__(self):
         self.entries: List[Entry] = []
 
     def change_last_number(self, correction: int):
         """change the last number to: correction"""
+
         try:
             self.entries[-1].reps = correction
         except IndexError:
@@ -36,11 +39,12 @@ class Workout:
 
     def add_entry(self, reps: int):
         """Add another entry in workout with current timestamp."""
+
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.entries.append(Entry(timestamp, reps))
 
     def __str__(self):
-        output = "Your workout:\n"
+        output = "Your workout:\n" + self.exercise + "\n"
         for entry in self.entries:
             output += entry.timestamp + "; " + str(entry.reps) + "\n"
         output += "Total reps: " + str(self.total())
@@ -48,6 +52,7 @@ class Workout:
 
     def total(self) -> int:
         """Return total sum of repetitions."""
+
         return sum([entry.reps for entry in self.entries])
 
     def write_to_file(self):
@@ -55,6 +60,7 @@ class Workout:
 
         The filename is based on the start of the workout.
         """
+
         filename = self.entries[0].timestamp + " workout log.txt"
         with open(filename, mode="w") as file:
             file.write(str(self) + "\n")
@@ -73,10 +79,12 @@ class Workouts:
         I don't like it. It is too long and too convoluted. I want to split it up in
         more logical and re-usable parts. But this is the best I can do right now. :(
         """
+
         workout = Workout()
+        workout.exercise = input("Input your exercise for this workout: ")
         while True:
             last_reps = workout.entries[-1].reps \
-                if workout.entries != [] \
+                if workout.entries \
                 else 0
             input_line = input("Count of repetitions to be logged: "
                                f"(default: {last_reps}, or '[h]elp'): ")
