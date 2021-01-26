@@ -1,3 +1,7 @@
+package model
+
+import kotlin.streams.toList
+
 class TimeStamp private constructor(private val secondCount: Int) {
     fun getTimeInSeconds(): Int {
         return secondCount
@@ -25,10 +29,18 @@ class TimeStamp private constructor(private val secondCount: Int) {
             val (hours, minutes, seconds) = timeString.split(":").map { str -> str.toInt() }
 
             if (minutes >= 60 || seconds >= 60) {
-                throw WrongInput(timeString)
+                throw IllegalTimeString(timeString)
             }
 
             return intArrayOf(hours, minutes, seconds)
+        }
+
+        fun getListOf(timeStampsCSVString: String): List<TimeStamp> {
+            return timeStampsCSVString
+                .split(",")
+                .stream()
+                .map { timeString -> of(timeString) }
+                .toList()
         }
     }
 
@@ -67,6 +79,6 @@ class TimeStamp private constructor(private val secondCount: Int) {
 
 }
 
-class WrongInput(val illegalString: String) :
+class IllegalTimeString(val illegalString: String) :
     IllegalArgumentException("\"$illegalString\" could not be parsed into time!") {
 }

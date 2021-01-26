@@ -1,4 +1,9 @@
+import controller.Controller
+
 fun main(args: Array<String>) {
-    println("Hello World!")
-    println(args.joinToString())
+
+    val controller = Controller()
+
+    controller.pipeArgs(args)
+
 }

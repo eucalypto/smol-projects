@@ -1,3 +1,5 @@
+import model.IllegalTimeString
+import model.TimeStamp
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -29,14 +31,14 @@ class TimeStampTest {
 
     @Test
     internal fun `throw WrongInput for illegal input`() {
-        assertThrows<WrongInput> {
+        assertThrows<IllegalTimeString> {
             TimeStamp.of("00:00:60")
         }
     }
 
     @Test
     internal fun `WrongInput check message and member string`() {
-        val exception = assertThrows<WrongInput> {
+        val exception = assertThrows<IllegalTimeString> {
             TimeStamp.of("00:00:60")
         }
 
@@ -60,6 +62,17 @@ class TimeStampTest {
     internal fun `shows correct formatted representation string with hours, minutes, and seconds`() {
         val timeStamp = TimeStamp.of("02:02:02")
         assertEquals("02:02:02", timeStamp.toString())
+    }
+
+
+    @Test
+    internal fun `create list from CSV string without spaces`() {
+        val timeStamps = TimeStamp.getListOf("00:00:34,00:01:00,01:01:03")
+
+        assertEquals(3, timeStamps.size)
+        assertEquals("00:00:34", timeStamps[0].toString())
+        assertEquals("00:01:00", timeStamps[1].toString())
+        assertEquals("01:01:03", timeStamps[2].toString())
     }
 
     @Nested
